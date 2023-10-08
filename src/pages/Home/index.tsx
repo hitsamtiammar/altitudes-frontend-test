@@ -7,24 +7,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Grid from '@mui/material/Grid';
 import { Checkbox, Typography } from '@mui/material';
-import styles from './styles.module.css';
 import AnimatedContainer from '@/components/AnimatedContainer';
-import { NavLink } from 'react-router-dom';
 import { ReceiveBy } from '../Profile/interfaces';
-
-function createData(name: string, receiveBy: ReceiveBy, isSubscribe: boolean) {
-  return { name, receiveBy, isSubscribe };
-}
-
-const rows = [
-  createData('Netflix', ReceiveBy.DAILY, true),
-  createData('Youtube Premium', ReceiveBy.DAILY, false),
-  createData('Viu', ReceiveBy.DAILY, true),
-  createData('Disney+', ReceiveBy.WEEKLY, false),
-  createData('Vidio+', ReceiveBy.MONTLY, true),
-];
+import { useAppSelector } from '@/redux/hooks';
 
 export default function Home() {
+  const subscriptions = useAppSelector((state) => state.subscription.list);
+  const receiveBy = useAppSelector((state) => state.users.receiveBy);
   function renderTable() {
     return (
       <TableContainer>
@@ -37,14 +26,14 @@ export default function Home() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
-              <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            {subscriptions.map((row, index) => (
+              <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell>{index + 1}</TableCell>
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  <Checkbox checked={row.isSubscribe} disabled />
+                  <Checkbox checked={row.isSubcribe} disabled />
                 </TableCell>
               </TableRow>
             ))}
@@ -58,7 +47,7 @@ export default function Home() {
     <AnimatedContainer>
       <Grid container>
         <Typography marginBottom={3} marginTop={3} variant="h4">
-          User List
+          Subscription List: {receiveBy}
         </Typography>
         {renderTable()}
       </Grid>
