@@ -6,20 +6,22 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Grid from '@mui/material/Grid';
-import { Typography } from '@mui/material';
+import { Checkbox, Typography } from '@mui/material';
 import styles from './styles.module.css';
-import ButtonHover from '@/components/HoverButton';
+import AnimatedContainer from '@/components/AnimatedContainer';
+import { NavLink } from 'react-router-dom';
+import { ReceiveBy } from '../Profile/interfaces';
 
-function createData(name: string, isSubscribe: boolean) {
-  return { name, isSubscribe };
+function createData(name: string, receiveBy: ReceiveBy, isSubscribe: boolean) {
+  return { name, receiveBy, isSubscribe };
 }
 
 const rows = [
-  createData('Youtube', true),
-  createData('Netflix', true),
-  createData('Disney+', true),
-  createData('Facebook', false),
-  createData('Viu', false),
+  createData('Netflix', ReceiveBy.DAILY, true),
+  createData('Youtube Premium', ReceiveBy.DAILY, false),
+  createData('Viu', ReceiveBy.DAILY, true),
+  createData('Disney+', ReceiveBy.WEEKLY, false),
+  createData('Vidio+', ReceiveBy.MONTLY, true),
 ];
 
 export default function Home() {
@@ -29,11 +31,9 @@ export default function Home() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell className={styles.tableHead}>No</TableCell>
-              <TableCell className={styles.tableHead}>Subscription</TableCell>
-              <TableCell className={styles.tableHead} width={200}>
-                Status
-              </TableCell>
+              <TableCell sx={{ fontWeight: 600 }}>No</TableCell>
+              <TableCell sx={{ fontWeight: 600 }}>Email</TableCell>
+              <TableCell sx={{ fontWeight: 600 }}>Subscription Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -43,13 +43,8 @@ export default function Home() {
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
-                <TableCell>
-                  <ButtonHover
-                    btnType={row.isSubscribe ? 'type_1' : 'type_2'}
-                    text="Subscribe"
-                    onHoverText="UnSubscribe"
-                    variant="contained"
-                  />
+                <TableCell component="th" scope="row">
+                  <Checkbox checked={row.isSubscribe} disabled />
                 </TableCell>
               </TableRow>
             ))}
@@ -60,11 +55,13 @@ export default function Home() {
   }
 
   return (
-    <Grid container>
-      <Typography marginBottom={3} marginTop={3} variant="h4">
-        News Letter List
-      </Typography>
-      {renderTable()}
-    </Grid>
+    <AnimatedContainer>
+      <Grid container>
+        <Typography marginBottom={3} marginTop={3} variant="h4">
+          User List
+        </Typography>
+        {renderTable()}
+      </Grid>
+    </AnimatedContainer>
   );
 }
