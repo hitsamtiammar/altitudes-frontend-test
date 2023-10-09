@@ -72,7 +72,7 @@ export default function Pofile() {
     } else if (data.password.length < 3) {
       newErrors.password = 'Password length minimum 3';
     } else if (data.password.length > 15) {
-      newErrors.password = 'Password length maximum 3';
+      newErrors.password = 'Password length maximum 15';
     }
 
     setErrors(newErrors);
