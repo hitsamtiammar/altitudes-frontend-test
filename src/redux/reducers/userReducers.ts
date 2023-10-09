@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Subscription, DUMMY_DATA } from './interfaces';
 import { ReceiveBy } from '@/pages/Profile/interfaces';
 
 export interface UserState {
